@@ -125,10 +125,6 @@ if(summary=='Y'):
 
 align_array = np.array([list(rec) for rec in align], np.str_)
 
-
-# In[ ]:
-
-
 # Allow you to generate a predicted variant call based off of the multiple sequence alignment and bam/read coverage
 prediction = input("Would you like to generate predicted base calls for variable sites? Y/N")
 
@@ -175,10 +171,6 @@ if(prediction=='Y'):
                 f.write('%s\t%s\n'%(hq_position, '\t'.join([str(i) for i in hq_basecounts])))
         f.close()
 print("Done with pileup...")
-
-
-# In[ ]:
-
 
 # Option to allow for guided editing process
 edit = input("Would you like to edit as you go? Y/N")
@@ -264,10 +256,6 @@ for line in pile_out:
 pile_out.close()
 fout.close()
 
-
-# In[ ]:
-
-
 # Edit sequence "by hand" - i.e. target specific sites manually
 looper = True
 while(looper==True):
@@ -312,28 +300,3 @@ for nuc in align_array[1,:]:
 fasta=open(FILES[0]+".fasta","w")
 fasta.write(">"+query.id+"\n"+edit_seq)
 fasta.close()
-
-
-# In[ ]:
-
-
-
-
-# unfinished code related to effort to build in some crossvalidation with variant prediction pipeline
-"""
-cmd=["bcftools", "mpileup", "-f", ref, inbampath, "|", "bcftools", "call", "-mv", "-Oz", "-o", FILES[0]+".vcf.gz"]
-output=subprocess.call(['echo','hello'])
-#subprocess.call(cmd,shell=True)
-print(output)
-bcf_in = VariantFile("test.bcf")
-for rec in bcf_in.fetch():
-    print(rec)
-"""
-#print(variants)
-
-
-# In[ ]:
-
-
-
-
