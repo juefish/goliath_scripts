@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 
 # Program to facilitate manual editing of COVID-19 sequence.
@@ -111,7 +111,7 @@ mafft_cline = MafftCommandline(mafft_exe, input=inFile)
 stdout, stderr = mafft_cline()
 align = AlignIO.read(StringIO(stdout.upper()), "fasta")
 query_seq=align[1,:]
-edit_seq=query.seq.tomutable()
+#edit_seq=query.seq.tomutable()
 subprocess.call(["rm", "Temp.fa"])
 for i in range(align.get_alignment_length()):
     if("n" in align[:,i] or "-" in align[:,i] or align[:,i][0]!=align[:,i][1]):
@@ -124,6 +124,10 @@ if(summary=='Y'):
     summarize_alignment(align)
 
 align_array = np.array([list(rec) for rec in align], np.str_)
+
+
+# In[2]:
+
 
 # Allow you to generate a predicted variant call based off of the multiple sequence alignment and bam/read coverage
 prediction = input("Would you like to generate predicted base calls for variable sites? Y/N")
@@ -172,6 +176,10 @@ if(prediction=='Y'):
         f.close()
 print("Done with pileup...")
 
+
+# In[9]:
+
+
 # Option to allow for guided editing process
 edit = input("Would you like to edit as you go? Y/N")
 while(edit!="Y" and edit!='N'):
@@ -197,12 +205,10 @@ logOut = """#Log of changes made to %s sequence.
 #Date and time = %s
 """ % (query.id, dt_string)
 logFile.write(logOut)    
-    
+header="Ref\tVariant\tSite\t#Reads\tA\tC\tG\tT\tPredictedCall"
+
 for line in pile_out:    
-    if(lineNumber==0):
-        if(edit=="Y"):
-            print("Ref\tVariant\tSite\tNumReads\tA\tC\tG\tT\tPredictedCall")
-    else:
+    if(lineNumber>0):
         totalBases=0
         line=line.split()
         predictedNuc = ""
@@ -217,7 +223,7 @@ for line in pile_out:
         prevSite=int(line[0])
         start=int(line[0])
         if(edit=="Y"):
-            print(OutString)
+            print(header +"\n" + OutString)
         if(edit=='Y' and predictedNuc!="???"):
             confirm = input("Confirm that you would like to change the %s at position %s: Y/N" % (variants[int(line[0])][1].upper(), line[0]))
             while(confirm!="Y" and confirm!='N'):
@@ -240,7 +246,7 @@ for line in pile_out:
                         newNuc = input("What other bases call would you like to make at this position? A, C, G, T, or N?")
                         while(newNuc not in nucs):
                             newNuc = input("Please choose a known base call code.")
-                        print("BERFORE:", align_array[1,start-1])
+                        print("BEFORE:", align_array[1,start-1])
                         align_array[1,start-1]=newNuc
                         print("AFTER:", align_array[1,start-1])
                         logOut="%s at position %s -> %s" % (variants[int(line[0])][1].upper(),start,newNuc)
@@ -256,6 +262,10 @@ for line in pile_out:
 pile_out.close()
 fout.close()
 
+
+# In[4]:
+
+
 # Edit sequence "by hand" - i.e. target specific sites manually
 looper = True
 while(looper==True):
@@ -266,7 +276,7 @@ while(looper==True):
     if(byhand=="Y"):
         print("YOU MUST EDIT YOUR SEQUENCE FROM THE RIGHT [i.e. highest numbered position] TO THE LEFT [i.e. lowest numbered position]")
         start=int(input("Start site on reference sequence?"))
-        action=input("Action to take? C(hange),D(elete),I(nsert), or E(nd)")
+        action=input("Action to take? C(hange),D(elete),I(nsert), or E(nd manual editing)")
         while(action not in ['C','D', 'I','E']):
             action=input("Unrecognized option entered: Action to take? C,D, or I")
         print("The current base call at position %s is %s" % (start, align_array[1,start-1]))
@@ -300,3 +310,28 @@ for nuc in align_array[1,:]:
 fasta=open(file+".fasta","w")
 fasta.write(">"+query.id+"\n"+edit_seq)
 fasta.close()
+
+
+# In[ ]:
+
+
+
+
+# unfinished code related to effort to build in some crossvalidation with variant prediction pipeline
+"""
+cmd=["bcftools", "mpileup", "-f", ref, inbampath, "|", "bcftools", "call", "-mv", "-Oz", "-o", FILES[0]+".vcf.gz"]
+output=subprocess.call(['echo','hello'])
+#subprocess.call(cmd,shell=True)
+print(output)
+bcf_in = VariantFile("test.bcf")
+for rec in bcf_in.fetch():
+    print(rec)
+"""
+#print(variants)
+
+
+# In[ ]:
+
+
+
+
