@@ -27,7 +27,7 @@ import numpy as np
 #Set variables for program
 nucs=["A","C","G","T","N","-","R","Y","S","W","K","M","B","D","H","B"]
 variants={}
-Debug=True
+Debug=False
 
 def summarize_alignment(align):
     NumN = align[1,:].seq.count('N')
