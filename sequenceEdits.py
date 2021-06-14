@@ -297,6 +297,6 @@ logFile.close()
 edit_seq=""
 for nuc in align_array[1,:]:
     edit_seq+=nuc
-fasta=open(FILES[0]+".fasta","w")
+fasta=open(file+".fasta","w")
 fasta.write(">"+query.id+"\n"+edit_seq)
 fasta.close()
