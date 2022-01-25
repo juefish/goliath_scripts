@@ -8,4 +8,7 @@
 
 ### **fastaExtract.py**
 <p>Python script that you can use to extract sequences from a larger file by feeding the program a list of sequences that you either was to include or exclude from your extraction. Meant to be run on command line and output needs to be redirected (with a '>') to a new file to be saved. 
-  Standar usage is aa follows: python fastaExtract.py -i/e -list <list of sequences you either want to extract or avoid> -fasta <path to fasta file></p>
+  Standard usage is aa follows: python fastaExtract.py -i/e -list <list of sequences you either want to extract or avoid> -fasta <path to fasta file></p>
+  
+  ### **GCSkew.py***
+  <p>Python script that you can feed a genome and window size and get percent GC and GC skew calculations for non-overlapping, window-sized intervals from a genome. Useful for creating Circos plots, especially in Circa.</>
