@@ -1,10 +1,6 @@
 #!/usr/bin/env python
-# coding: utf-8
 
-# In[34]:
-
-
-#!/usr/bin/env python
+#use need to install Biopython package for this to work
 
 #set up for Debugging or commandline runs
 Debug=False
@@ -60,10 +56,3 @@ for seq_record in SeqIO.parse(InFileName, "fasta"):
         PercGCOutFile.write(OutString + "\n")
 GCSkewOutFile.close()
 PercGCOutFile.close()
-
-
-# In[ ]:
-
-
-
-
