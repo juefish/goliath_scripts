@@ -20,11 +20,14 @@ from io import StringIO
 import pysam, os, subprocess
 from pysam import VariantFile
 import numpy as np
+import readline
 
 #Set variables for program
 nucs=["A","C","G","T","N","-","R","Y","S","W","K","M","B","D","H","B"]
 variants={}
 Debug=False
+
+readline.parse_and_bind("tab: complete")
 
 def summarize_alignment(align):
     NumN = align[1,:].seq.count('N')
@@ -92,11 +95,11 @@ tempFile = open("Temp.fa", 'w')
 if Debug:
     reference=SeqIO.read("MN908947.3.fasta", 'fasta')
 else:
-    reference=SeqIO.read(input("Reference file?"), 'fasta')
+    reference=SeqIO.read(input("Reference file? "), 'fasta')
 if Debug:
     query=SeqIO.read("MC01975.medaka.consensus.fasta", 'fasta')
 else:
-    query=SeqIO.read(input("Query file?"), 'fasta')
+    query=SeqIO.read(input("Query file? "), 'fasta')
 seq_list= [reference.upper(), query.upper()]
 #Combine sequences and write to a temporary file
 SeqIO.write(seq_list,tempFile, 'fasta')
