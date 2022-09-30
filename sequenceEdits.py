@@ -287,7 +287,7 @@ while(looper==True):
             logFile.write(logOut + "\n")
         elif(action=="D"):
             indel=int(input("How many bases would you like to delete?"))
-            align_array=np.concatenate([align_array[:,:(start-1)],align_array[:,(start+indel-1):]],axis=1)
+            align_array=np.concatenate([align_array[:,:(start-1)],align_array[:,(start+indel):]],axis=1)
             logOut="%s nucleotides were deleted from the query sequence starting at position %s" % (indel,start)
             logFile.write(logOut + "\n")
         elif(action=="I"):
